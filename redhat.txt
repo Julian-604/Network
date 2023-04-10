@@ -21,3 +21,6 @@ USERCTL=no
 how view running service in linux
 
 sudo systemctl list-units --type=service --state=running
+
+sudo mount -t cifs //192.168.1.10/myshare /mnt/smbshare -o username=john,password=mypassword
+
