@@ -1,0 +1,53 @@
+To backup the startup-config of a Cisco network switch using Ansible to a TFTP server, you can use the ios_command module to execute the copy command on the switch. Here are the steps to do so:
+
+Install the necessary networking modules: To manage network devices with Ansible, you need to install some additional modules.
+
+You can install the networking modules using the following command:
+
+Copy code
+sudo ansible-galaxy collection install ansible.netcommon
+This will install the ansible.netcommon collection, which includes networking modules for Ansible.
+
+Create an Ansible playbook: Create an Ansible playbook (e.g. backup-startup-config.yml) to backup the startup-config of the switch to the TFTP server.
+
+Here is an example playbook:
+
+yaml
+Copy code
+---
+- name: Backup startup-config of Cisco switch
+  hosts: network_switches
+  gather_facts: no
+
+  tasks:
+    - name: Backup startup-config to TFTP server
+      ios_command:
+        commands:
+          - copy startup-config tftp://<TFTP_SERVER_IP>/backup/startup-config.cfg
+        provider:
+          host: "{{ inventory_hostname }}"
+          username: "<USERNAME>"
+          password: "<PASSWORD>"
+      register: copy_result
+
+    - name: Print copy result
+      debug:
+        var: copy_result.stdout_lines
+This playbook uses the ios_command module to execute the copy command on the switch. The commands parameter specifies the copy command to be executed. The provider parameter specifies the login credentials of the switch.
+
+Configure Ansible inventory: Ansible inventory is used to define the list of hosts that you want to manage with Ansible.
+
+Create an inventory file (e.g. inventory.ini) and add the IP address of your network switch to it, for example:
+
+csharp
+Copy code
+[network_switches]
+192.168.1.1
+Run Ansible playbook: To run the playbook, use the ansible-playbook command:
+
+arduino
+Copy code
+ansible-playbook -i inventory.ini backup-startup-config.yml
+This will execute the backup-startup-config.yml playbook against the host defined in the inventory.ini file.
+
+Once the playbook has finished running, the startup-config of the switch should be backed up to the TFTP server at the specified location. You can check the copy_result.stdout_lines output to verify the status of the backup process.
