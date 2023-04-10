@@ -1,0 +1,30 @@
+#NFS
+sudo apt-get update
+sudo apt-get install nfs-kernel-server
+
+sudo mkdir /nfs
+
+sudo nano /etc/exports
+
+/nfs *(rw,sync,no_subtree_check)
+
+sudo systemctl restart nfs-kernel-server
+
+
+#SMB
+
+sudo apt-get update
+sudo apt-get install samba
+
+sudo mkdir /samba
+
+sudo nano /etc/samba/smb.conf
+
+[samba]
+path = /samba
+read only = no
+guest ok = yes
+
+sudo smbpasswd -a sambauser
+
+sudo systemctl restart smbd
