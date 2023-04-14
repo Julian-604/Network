@@ -3,3 +3,7 @@
 lsof -i :port_number
 
 kill $(lsof -t -i :port_number)
+
+
+#IMO
+`https://www.redhat.com/sysadmin/one-line-linux-commands`
